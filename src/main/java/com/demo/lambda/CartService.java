@@ -78,5 +78,73 @@ public class CartService {
         return result;
     }
 
+    /**
+     * Version 2.0.0
+     * 根据传入商品类型参数，找出购物车中同种商品类型的商品列表
+     * @param cartSkuList
+     * @param category
+     * @return
+     */
+    public static List<Sku> filterSkusByCategory(
+            List<Sku> cartSkuList, SkuCategoryEnum category) {
 
+        List<Sku> result = new ArrayList<Sku>();
+        for (Sku sku: cartSkuList) {
+            // 如果商品类型 等于 传入商品类型参数
+            if (category.equals(sku.getSkuCategory())) {
+                result.add(sku);
+            }
+        }
+        return result;
+    }
+
+    /**
+     * Version 3.0.0
+     * 支持通过商品类型或总价来过滤商品
+     * @param cartSkuList
+     * @param category
+     * @param totalPrice
+     * @param categoryOrPrice - true: 根据商品类型，false: 根据商品总价
+     * @return
+     */
+    public static List<Sku> filterSkus(
+            List<Sku> cartSkuList, SkuCategoryEnum category,
+            Double totalPrice, Boolean categoryOrPrice) {
+
+        List<Sku> result = new ArrayList<Sku>();
+        for (Sku sku: cartSkuList) {
+
+            // 如果根据商品类型判断，sku类型与输入类型比较
+            // 如果根据商品总价判断，sku总价与输入总价比较
+            if (
+                    (categoryOrPrice
+                            && category.equals(sku.getSkuCategory())
+                            ||
+                            (!categoryOrPrice
+                                    && sku.getTotalPrice() > totalPrice))) {
+                result.add(sku);
+            }
+        }
+        return result;
+    }
+
+        /**
+         * Version 4.0.0
+         * 根据不同的Sku判断标准，对Sku列表进行过滤
+         * @param cartSkuList
+         * @param predicate - 不同的Sku判断标准策略
+         * @return
+         */
+        public static List<Sku> filterSkus(
+                List<Sku> cartSkuList, SkuPredicate predicate) {
+
+            List<Sku> result = new ArrayList<Sku>();
+            for (Sku sku: cartSkuList) {
+                boolean b = predicate.filterSkus(sku);
+                if (b){
+                    result.add(sku);
+                }
+            }
+            return result;
+        }
 }
