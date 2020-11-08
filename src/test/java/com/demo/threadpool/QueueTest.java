@@ -59,7 +59,7 @@ public class QueueTest {
         /*
         new Thread(() -> {
             try {
-                queue.take();
+                com.demo.queue.take();
                 System.out.println("删除成功");
             } catch (InterruptedException e) {
                 e.printStackTrace();
