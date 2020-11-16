@@ -1,4 +1,4 @@
-package com.demo.npe;
+package com.demo.exception;
 
 /**
  * 描述:
