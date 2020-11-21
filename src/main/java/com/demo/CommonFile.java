@@ -8,4 +8,6 @@ package com.demo;
 public class CommonFile {
     //AA
 
+    //BB
+
 }
